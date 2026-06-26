@@ -78,19 +78,54 @@ return {
 
         -- Code actions
         keymap("n", "<leader>la", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code actions" }))
+        keymap("x", "<leader>la", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action (range)" }))
         keymap("n", "<leader>lr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
         keymap("n", "<leader>lf", function() vim.lsp.buf.format({ async = false }) end, vim.tbl_extend("force", opts, { desc = "Format buffer" }))
+        keymap("x", "<leader>lf", function()
+          local s = vim.api.nvim_buf_get_mark(0, "<")
+          local e = vim.api.nvim_buf_get_mark(0, ">")
+          vim.lsp.buf.format({
+            bufnr = bufnr,
+            async = false,
+            range = { start = { s[1], s[2] }, ["end"] = { e[1], e[2] } },
+          })
+        end, vim.tbl_extend("force", opts, { desc = "Format selection" }))
 
         -- Diagnostics
         keymap("n", "<leader>ld", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Line diagnostics" }))
-        keymap("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
-        keymap("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+        keymap("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+        keymap("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
         keymap("n", "<leader>lq", vim.diagnostic.setloclist, vim.tbl_extend("force", opts, { desc = "Diagnostics to loclist" }))
+        keymap("n", "<leader>lQ", vim.diagnostic.setqflist, vim.tbl_extend("force", opts, { desc = "Diagnostics to quickfix" }))
+        keymap("n", "<leader>lt", function()
+          vim.diagnostic.enable(not vim.diagnostic.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+        end, vim.tbl_extend("force", opts, { desc = "Toggle diagnostics" }))
 
         -- Workspace
         keymap("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, vim.tbl_extend("force", opts, { desc = "Add workspace folder" }))
         keymap("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, vim.tbl_extend("force", opts, { desc = "Remove workspace folder" }))
         keymap("n", "<leader>lwl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, vim.tbl_extend("force", opts, { desc = "List workspace folders" }))
+
+        -- Call hierarchy (results land in the quickfix list)
+        keymap("n", "<leader>lI", vim.lsp.buf.incoming_calls, vim.tbl_extend("force", opts, { desc = "Incoming calls" }))
+        keymap("n", "<leader>lO", vim.lsp.buf.outgoing_calls, vim.tbl_extend("force", opts, { desc = "Outgoing calls" }))
+
+        -- Inlay hints (toggle per buffer; is_enabled needs the bufnr filter or it reports global state)
+        keymap("n", "<leader>lh", function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+        end, vim.tbl_extend("force", opts, { desc = "Toggle inlay hints" }))
+
+        -- Code lens (enable auto-refresh + run; only when the server provides it)
+        if client and client:supports_method("textDocument/codeLens", bufnr) then
+          vim.lsp.codelens.enable(true, { bufnr = bufnr })
+          keymap("n", "<leader>lc", vim.lsp.codelens.run, vim.tbl_extend("force", opts, { desc = "Run code lens" }))
+        end
+
+        -- which-key: label the Workspace sub-group (buffer-local, only where LSP attaches)
+        local ok_wk, wk = pcall(require, "which-key")
+        if ok_wk then
+          wk.add({ { "<leader>lw", group = "Workspace", buffer = bufnr } })
+        end
 
         -- LSP info
         keymap("n", "<leader>li", "<cmd>LspInfo<cr>", vim.tbl_extend("force", opts, { desc = "LSP info" }))

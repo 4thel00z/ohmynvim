@@ -219,7 +219,7 @@ return {
         { "<leader>ef", desc = "Focus file tree" },
         { "<leader>ei", desc = "Find file in tree" },
         { "<leader>f", group = "Find" },
-        { "<leader>g", group = "Grep" },
+        { "<leader>g", group = "Git" },
         { "<leader>b", group = "Buffers" },
         { "<leader>l", group = "LSP" },
         { "<leader>d", group = "Debug" },

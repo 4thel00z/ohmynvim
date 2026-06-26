@@ -132,11 +132,15 @@ LSP servers will also auto-install when you open files of supported types.
 | `gd` | 🎯 Go to definition |
 | `gr` | 🔗 Find references |
 | `K` | 📖 Hover documentation |
-| `<leader>la` | ⚡ Code actions |
+| `<leader>la` | ⚡ Code actions (normal + visual range) |
 | `<leader>lr` | ✏️ Rename symbol |
-| `<leader>lf` | 🎨 Format buffer |
+| `<leader>lf` | 🎨 Format buffer (visual: format selection) |
+| `<leader>lh` | 💡 Toggle inlay hints |
+| `<leader>lc` | 🔎 Run code lens |
+| `<leader>lI` / `<leader>lO` | 📞 Incoming / outgoing calls |
+| `<leader>lt` | 🚦 Toggle diagnostics |
+| `<leader>lq` / `<leader>lQ` | 📋 Diagnostics to loclist / quickfix |
 | `[d` / `]d` | ⬆️⬇️ Previous/next diagnostic |
-| `<leader>xx` | 🚨 Toggle diagnostics |
 
 ### ✂️ Editing
 
@@ -146,6 +150,7 @@ LSP servers will also auto-install when you open files of supported types.
 | `gbc` | 💭 Toggle block comment |
 | `<C-s>` | 💾 Save file |
 | `<leader>p` | 📋 Paste without yanking |
+| `<leader>D` | 🗑️ Delete without yanking |
 | `<` / `>` | ⬅️➡️ Indent left/right (visual mode) |
 | `J` / `K` | ⬆️⬇️ Move lines up/down (visual mode) |
 
@@ -200,11 +205,11 @@ LSP servers will also auto-install when you open files of supported types.
 - Struct tag generation
 - Delve debugger
 
-**Keybindings:**
-- `<leader>gt` - Run tests
-- `<leader>gi` - Implement interface
-- `<leader>gf` - Fill struct
-- `<leader>gj` - Add JSON tags
+**Keybindings** (under the LSP `<leader>lg` Go sub-group):
+- `<leader>lgt` - Run tests
+- `<leader>lgi` - Implement interface
+- `<leader>lgf` - Fill struct
+- `<leader>lgj` - Add JSON tags
 
 ### Python 🐍
 

@@ -51,7 +51,7 @@ All leader-key groups follow a consistent prefix pattern:
 - `<leader>s` Search (Telescope pickers)
 - `<leader>g` Git (Telescope)
 - `<leader>b` Buffers
-- `<leader>l` LSP actions
+- `<leader>l` LSP actions (includes `<leader>lg` Go sub-group and `<leader>lw` Workspace folders)
 - `<leader>d` Debug (DAP)
 - `<leader>w` Windows/splits
 - `<leader>x` Trouble (diagnostics)

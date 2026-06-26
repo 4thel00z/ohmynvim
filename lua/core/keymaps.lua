@@ -50,9 +50,9 @@ keymap("n", "N", "Nzzzv", opts)
 -- Paste without yanking replaced text
 keymap("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })
 
--- Delete without yanking
-keymap("n", "<leader>d", '"_d', { desc = "Delete without yanking" })
-keymap("v", "<leader>d", '"_d', { desc = "Delete without yanking" })
+-- Delete without yanking (on <leader>D so <leader>d stays the Debug prefix)
+keymap("n", "<leader>D", '"_d', { desc = "Delete without yanking" })
+keymap("v", "<leader>D", '"_d', { desc = "Delete without yanking" })
 
 -- Run group (<leader>r)
 -- Softwrap toggle
